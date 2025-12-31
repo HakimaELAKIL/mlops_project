@@ -22,18 +22,15 @@ This project addresses these challenges by combining automated NAS, containeriza
 ---
 
 ## Project Structure
-
+```bash
 katib-nas-atelier/
-├── train_continuous_nas.py # Continuous NAS training with Early Stopping
-├── Dockerfile # Training container environment
-├── continuous_nas.yaml # Katib experiment definition
-├── tmp-pvc-pod.yaml # Temporary pod for PVC access
-├── main.py # FastAPI inference service
-└── model/ # Local mount point for trained artifacts
-
-yaml
-Copier le code
-
+├── train_continuous_nas.py    # Continuous NAS training with early stopping
+├── Dockerfile                 # Training container environment
+├── continuous_nas.yaml        # Katib experiment definition
+├── tmp-pvc-pod.yaml           # Temporary pod for PVC access
+├── main.py                    # FastAPI inference service
+└── model/                     # Local mount point for trained artifacts
+```
 ---
 
 ## Objectives
@@ -59,36 +56,35 @@ In this project:
 ---
 
 ## System Architecture
-
+```bash
 ┌─────────────────────────┐
 │ train_continuous_nas.py │
 └─────────────┬───────────┘
-↓
+              ↓
 ┌─────────────────────────┐
 │ Docker Image │
 └─────────────┬───────────┘
-↓
+              ↓
 ┌─────────────────────────┐
 │ MicroK8s Cluster │
 │ (Single-node Kubernetes)│
 └─────────────┬───────────┘
-↓
+              ↓
 ┌─────────────────────────┐
 │ Kubeflow Katib │
 │ (NAS + HPO Engine) │
 └─────────────┬───────────┘
-↓
+              ↓
 ┌─────────────────────────┐
 │ Persistent Volume Claim │
 │ (Models & Metrics) │
 └─────────────┬───────────┘
-↓
+              ↓
 ┌─────────────────────────┐
 │ FastAPI Inference API │
 └─────────────────────────┘
 
-yaml
-Copier le code
+```
 
 ---
 
