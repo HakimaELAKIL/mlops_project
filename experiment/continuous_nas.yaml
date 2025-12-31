@@ -1,0 +1,82 @@
+apiVersion: kubeflow.org/v1beta1
+kind: Experiment
+metadata:
+  name: iris-continuous-nas
+  namespace: kubeflow
+spec:
+  objective:
+    type: maximize
+    goal: 0.95
+    objectiveMetricName: accuracy
+
+  algorithm:
+    algorithmName: random
+
+  maxTrialCount: 6
+  parallelTrialCount: 2
+  maxFailedTrialCount: 2
+
+  parameters:
+    - name: layers
+      parameterType: int
+      feasibleSpace:
+        min: "1"
+        max: "3"
+    - name: units
+      parameterType: int
+      feasibleSpace:
+        min: "8"
+        max: "64"
+    - name: activation
+      parameterType: categorical
+      feasibleSpace:
+        list: ["relu", "tanh", "logistic"]
+    - name: lr
+      parameterType: double
+      feasibleSpace:
+        min: "0.0005"
+        max: "0.05"
+
+  trialTemplate:
+    primaryContainerName: training-container
+    trialParameters:
+      - name: layers
+        reference: layers
+      - name: units
+        reference: units
+      - name: activation
+        reference: activation
+      - name: lr
+        reference: lr
+
+    trialSpec:
+      apiVersion: batch/v1
+      kind: Job
+      spec:
+        template:
+          spec:
+            containers:
+              - name: training-container
+                image: katib-iris:v3
+                command:
+                  - python3
+                  - /app/train_continuous_nas.py
+                  - "--layers"
+                  - "${trialParameters.layers}"
+                  - "--units"
+                  - "${trialParameters.units}"
+                  - "--activation"
+                  - "${trialParameters.activation}"
+                  - "--lr"
+                  - "${trialParameters.lr}"
+                  - "--export_path"
+                  - "/model/"
+                volumeMounts:
+                  - name: model-volume
+                    mountPath: /model
+            restartPolicy: Never
+            volumes:
+              - name: model-volume
+                persistentVolumeClaim:
+                  claimName: katib-iris-models-pvc
+

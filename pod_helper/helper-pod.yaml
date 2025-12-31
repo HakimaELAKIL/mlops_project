@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: katib-model-helper
+  namespace: kubeflow
+spec:
+  containers:
+  - name: helper
+    image: python:3.10-slim
+    command: ["sleep", "3600"]
+    volumeMounts:
+    - mountPath: /model
+      name: model-volume
+  volumes:
+  - name: model-volume
+    persistentVolumeClaim:
+      claimName: katib-iris-models-pvc
+  restartPolicy: Never
+

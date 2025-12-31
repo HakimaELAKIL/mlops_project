@@ -1,0 +1,13 @@
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: iris-sklearn
+  namespace: kubeflow
+spec:
+  predictor:
+    sklearn:
+      storageUri: "file:///mnt/models/sklearn/1.0/"
+      resources:
+        limits:
+          cpu: 1
+          memory: 2Gi
