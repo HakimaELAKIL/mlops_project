@@ -154,21 +154,19 @@ Defines:
 ## Workflow
 
 Experiment Definition
-↓
+      ↓
 Dockerized Training
-↓
+      ↓
 Katib NAS Trials
-↓
+      ↓
 Early Stopping
-↓
+      ↓
 Persistent Storage
-↓
+      ↓
 Best Model Selection
-↓
+      ↓
 FastAPI Deployment
 
-yaml
-Copier le code
 
 ---
 
@@ -231,32 +229,20 @@ http://localhost:8000/docs
 ```
 
 Technology Stack
-Python
-
-Docker
-
-Kubernetes (MicroK8s)
-
-Kubeflow Katib
-
-FastAPI
+ - Python
+ - Docker
+ - Kubernetes (MicroK8s)
+ - Kubeflow Katib
+ - FastAPI
 
 Use Cases
-Neural Architecture Search experiments
 
-MLOps education and learning
-
-Kubernetes-based ML pipelines
-
-Academic and research projects
+- Neural Architecture Search experiments
+- MLOps education and learning
+- Kubernetes-based ML pipelines
+- Academic and research projects
 
 Workshops and demonstrations
-
-License
-This project is intended for educational and research purposes.
-
-yaml
-
 
 ---
 
